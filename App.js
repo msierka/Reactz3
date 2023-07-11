@@ -1,3 +1,13 @@
+const People = props => {
+  return (
+    <li>
+      <span>{props.name}</span>
+      <button onClick={props.delete}>Usuń</button>
+    </li>
+  )
+}
+
+
 class List extends React.Component {
   state = {
     people: [
@@ -19,10 +29,26 @@ class List extends React.Component {
       },
     ]
   }
-
+  handleDelete(id){
+    const people = [...this.state.people];
+    const index = people.findIndex(p => p.id === id);
+    people.splice(index,1);
+    this.setState({
+      people
+    })
+  }
   render(){
+    const people = this.state.people.map(p =>(
+      <People 
+      key = {p.id}
+      name = {p.name}
+      delete = {this.handleDelete.bind(this,p.id)}
+      />
+    ))
     return (
-      <div>Działa</div>
+      <ul>
+        {people}
+      </ul>
     )
   }
 }
